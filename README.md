@@ -2,7 +2,7 @@
 
 NYC neighborhood intelligence. Enter any Manhattan address, get a dashboard of crime trends, 311 activity, your elected representatives, local precinct, and community meetings.
 
-**Live:** [streetiq.netlify.app](https://streetiq.netlify.app) *(update after deploy)*
+**Live:** [streetiqapp.netlify.app](https://streetiqapp.netlify.app)
 
 ## Built with
 - Vanilla HTML / CSS / JavaScript (no build step)
