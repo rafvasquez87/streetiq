@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Mobile-first: tells phones to render at the correct width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StreetIQ — NYC Neighborhood Intelligence</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <h1>StreetIQ</h1>
+      <p class="tagline">NYC neighborhood intelligence</p>
+    </header>
+
+    <!-- The search form. Using a <form> lets the user press Enter to submit. -->
+    <form id="search-form" class="search" autocomplete="off">
+      <input
+        id="address-input"
+        type="text"
+        placeholder="Enter any NYC address"
+        aria-label="NYC address"
+        required
+      />
+      <button type="submit" id="search-button">Search</button>
+    </form>
+
+    <!-- Status line: shows "Searching…" or error messages -->
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <!-- Results container. Hidden until we have something to show.
+         Later, cards (neighborhood, zoning, etc.) will render inside here. -->
+    <div id="results" class="results" hidden></div>
+  </main>
+
+  <script src="lookups.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

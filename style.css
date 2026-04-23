@@ -1,0 +1,470 @@
+/* ---------- Design tokens ----------
+   Keeping colors and sizes in CSS variables makes them easy to change
+   in one place later. */
+:root {
+  --bg: #0f1115;           /* page background */
+  --surface: #171a21;      /* card background */
+  --surface-2: #1f232c;    /* input background */
+  --border: #2a2f3a;       /* subtle borders */
+  --text: #e6e8ec;         /* main text */
+  --text-dim: #9aa3b2;     /* secondary text */
+  --accent: #4ade80;       /* green accent for the button */
+  --accent-hover: #22c55e; /* darker green on hover */
+  --radius: 12px;
+  --shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- Base reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* System font stack falls back gracefully if Inter isn't installed */
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Layout ---------- */
+.container {
+  /* Mobile-first: full-width with some side padding by default. */
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+.hero {
+  text-align: center;
+  margin: 24px 0 32px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  margin: 8px 0 0;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+/* ---------- Search bar ---------- */
+.search {
+  display: flex;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px;
+  box-shadow: var(--shadow);
+}
+
+#address-input {
+  flex: 1;
+  min-width: 0; /* lets the input shrink on small screens */
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+#address-input::placeholder {
+  color: var(--text-dim);
+}
+
+#address-input:focus {
+  border-color: var(--accent);
+}
+
+#search-button {
+  background: var(--accent);
+  color: #0b1a10;        /* dark text on the green button for contrast */
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+
+#search-button:hover {
+  background: var(--accent-hover);
+}
+
+#search-button:active {
+  transform: translateY(1px);
+}
+
+#search-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------- Status line ---------- */
+.status {
+  min-height: 1.25rem;     /* reserve space so layout doesn't jump */
+  margin: 16px 4px 0;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.status.error {
+  color: #f87171;
+}
+
+/* ---------- Results ----------
+   Mobile: single column (default). Desktop ≥ 768px: two equal columns.
+   Cards that span both columns opt in via .card--full-width. Grid's
+   default alignment already stretches items to fill their cell, so cards
+   in the same row end up equal height; we set it explicitly for clarity. */
+.results {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+@media (min-width: 768px) {
+  .results {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+}
+
+.card--full-width {
+  grid-column: 1 / -1;
+}
+
+/* Generic card class — ready for future neighborhood/zoning/etc. cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+}
+
+.card h2 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.card .muted {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.card .coords {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  margin-top: 6px;
+}
+
+/* ---------- Crime Trends card ----------
+   Each card type gets its own accent color via a modifier class. */
+.card--crime h2 {
+  margin: 0;
+}
+
+.card-subtitle {
+  margin: 2px 0 14px;
+  color: #f87171;                 /* this card's accent */
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
+}
+
+.crime-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.big-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.trend-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #f87171;      /* accent border per spec */
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.trend-pill--up   { color: #f87171; }           /* red: rising crime */
+.trend-pill--down { color: var(--accent); }     /* green: falling crime */
+
+.offense-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.offense-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  background: var(--surface-2);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.offense-count {
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.data-through {
+  margin: 14px 0 0;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+/* ---------- 311 Activity card ----------
+   Same base layout as .card; amber accent instead of red. Subtitle color
+   is set with higher specificity so it overrides the crime-card default
+   without touching the existing .card-subtitle rule. */
+.card--311 h2 {
+  margin: 0;
+}
+
+.card--311 .card-subtitle {
+  color: #fbbf24;
+}
+
+.complaint-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.complaint-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  background: var(--surface-2);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.complaint-name {
+  min-width: 0; /* allows long names to wrap instead of overflowing */
+}
+
+.complaint-counts {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.status-open   { color: #fbbf24; }
+.status-closed { color: var(--text-dim); }
+.status-divider { color: var(--border); }
+
+/* Narrow screens: stack the counts underneath the complaint name
+   instead of forcing both onto the same cramped row. */
+@media (max-width: 500px) {
+  .complaint-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+/* ---------- Representatives card ---------- */
+.card--reps h2 { margin: 0; }
+.card--reps .card-subtitle { color: #60a5fa; }
+
+.rep-row {
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.rep-row:last-child { margin-bottom: 0; }
+
+.rep-role {
+  margin: 0 0 4px;
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.rep-name {
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+
+.rep-district {
+  margin-left: 8px;
+  color: var(--text-dim);
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+.rep-links {
+  margin: 0;
+  font-size: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: center;
+}
+
+.rep-links a {
+  color: #60a5fa;
+  text-decoration: none;
+  /* Tap target: 44x44 is the iOS/Android minimum. The top/bottom padding
+     plus line-height gets us there without visibly bloating the row. */
+  padding: 10px 2px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.rep-links a:hover { text-decoration: underline; }
+
+.rep-sep { color: var(--border); }
+
+/* ---------- Local Precinct card ---------- */
+.card--precinct h2 { margin: 0; }
+.card--precinct .card-subtitle { color: #a78bfa; }
+
+.precinct-name {
+  margin: 4px 0 10px;
+  font-size: 1.1rem;
+}
+
+.precinct-line {
+  margin: 0;
+}
+
+.precinct-link {
+  color: #a78bfa;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 0;
+  min-height: 44px; /* tap target */
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+.precinct-link:hover { text-decoration: underline; }
+
+/* ---------- Community Meetings card ---------- */
+.card--meetings h2 { margin: 0; }
+.card--meetings .card-subtitle { color: #34d399; }
+
+/* Each row is an <a> so the whole rectangle is tappable. */
+.meeting-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  min-height: 44px;
+  background: var(--surface-2);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+.meeting-row:last-child { margin-bottom: 0; }
+
+/* Subtle hover lift (desktop). On touch devices `:hover` fires awkwardly
+   after tap, but the effect is light enough to be unobtrusive. */
+.meeting-row:hover { background: var(--border); }
+.meeting-row:active { transform: translateY(1px); }
+
+.meeting-icon {
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.meeting-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0; /* allow long labels to wrap instead of overflowing */
+}
+
+.meeting-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.meeting-desc {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.meeting-action {
+  color: #34d399;
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Inline link inside the empty-state sentence (ZIP not in Manhattan). */
+.inline-link {
+  color: #34d399;
+  text-decoration: none;
+}
+.inline-link:hover { text-decoration: underline; }
+
+/* ---------- Larger screens ---------- */
+@media (min-width: 640px) {
+  .container {
+    padding: 56px 24px 80px;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+}

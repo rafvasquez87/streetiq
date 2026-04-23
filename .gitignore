@@ -1,0 +1,21 @@
+# Dependencies (not used in v1, but ignored preemptively)
+node_modules/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor config
+.vscode/
+.idea/
+
+# Environment files / secrets
+.env
+.env.*
+
+# Claude Code local state (keeps project-shared .claude/ files if any,
+# but excludes the per-machine settings override)
+.claude/settings.local.json
+
+# Logs
+*.log
